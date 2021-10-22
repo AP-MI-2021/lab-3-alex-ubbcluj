@@ -43,10 +43,20 @@ def get_longest_all_palindromes(lst: list) -> list:
 
 
 def test_get_longest_all_palindromes():
-    pass
+    assert get_longest_all_palindromes([34, 65, 463, 332]) == []
+    assert get_longest_all_palindromes([52, 1, 44, 8998, 76]) == [1, 44, 8998]
+    assert get_longest_all_palindromes([1, 33, 7, 40, 44, 6666, 78987, 10901, 78, 3, 4, 5]) == [44, 6666, 78987, 10901]
 
 
 test_get_longest_all_palindromes()
+
+
+def only_powers_of_k(lst: list, k: int) -> bool:
+    #verifica daca toate numerele din lst se pot scrie ca x**k
+    for i in lst:
+        x = int(int(i)**(1/int(k)))
+        if i != x**int(k): return False
+    return True
 
 
 def get_longest_powers_of_k(lst: list, k: int) -> list:
@@ -55,11 +65,17 @@ def get_longest_powers_of_k(lst: list, k: int) -> list:
     param: lst - lista; k - un numar intreg citit de la tastatura
     return - o lista ce contine cea mai lunga secventa in care toate numerele se pot scrie ca x**k
     """
-    pass
+    max_seq = []
+    for i in range(len(lst)):
+        for j in range(i, len(lst)):
+            if len(lst[i: j+1]) > len(max_seq) and only_powers_of_k(lst[i: j+1], k) == True: max_seq = lst[i: j+1]
+    return max_seq
 
 
 def test_get_longest_powers_of_k():
-    pass
+    assert get_longest_powers_of_k([3, 7, 21, 69], 2) == []
+    assert get_longest_powers_of_k([9, 1, 27, 8, 5], 3) == [1, 27, 8]
+    assert get_longest_powers_of_k([1, 32, 4, 7776, 243, 3125, 2, 1024, 16807], 5) == [7776, 243, 3125]
 
 
 test_get_longest_powers_of_k()
@@ -77,12 +93,30 @@ def isprime(x: int) -> bool:
     return True
 
 
+def only_primes(lst: list) -> bool:
+    #verifica daca toate numerele din lst sunt prime
+    for i in lst:
+        if isprime(i) == False: return False
+    return True
+
+
 def get_longest_all_primes(lst: list) -> list:
-    pass
+    """
+    determina cea mai lunga secventa dintr-o lista in care toate numerele sunt prime
+    param. lst - lista
+    return - o lista ce contine cea mai lunga secventa in care toate numerele sunt prime
+    """
+    max_seq = []
+    for i in range(len(lst)):
+        for j in range(i, len(lst)):
+            if len(lst[i: j+1]) > len(max_seq) and only_primes(lst[i: j+1]) == True: max_seq = lst[i: j+1]
+    return max_seq
 
 
 def test_get_longest_all_primes():
-    pass
+    assert get_longest_all_primes([0, 1, 4, 6]) == []
+    assert get_longest_all_primes([3, 5, 11, 4]) == [3, 5, 11]
+    assert get_longest_all_primes([2, 5, 7, 1, 13, 17, 19, 2, 0, 3, 7, 2]) == [13, 17, 19, 2]
 
 
 test_get_longest_all_primes()
